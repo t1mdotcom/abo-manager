@@ -5,7 +5,8 @@
 # ///
 """Abo-Manager: Abos im Terminal überblicken, Preisänderungen und Kombis gegenrechnen.
 
-Start: `uv run abo.py` (Daten in abos.json neben dem Skript, anderer Ort via ABO_DATEI=...).
+Start: `abo` (Homebrew) oder `uv run abo.py`.
+Daten in ~/.config/abo-manager/abos.json, anderer Ort via ABO_DATEI=...
 
 Kombi = Abo mit Mitgliedern. Aktive Kombi → Mitglieder zählen nicht mehr einzeln.
 Inaktive Kombi → reine Idee, zeigt nur, was sie sparen würde.
@@ -40,6 +41,7 @@ def laden(datei):
 
 
 def speichern(datei, daten):
+    datei.parent.mkdir(parents=True, exist_ok=True)
     tmp = datei.with_suffix(".tmp")
     tmp.write_text(json.dumps(daten, indent=2, ensure_ascii=False), encoding="utf-8")
     tmp.replace(datei)
@@ -365,5 +367,9 @@ class AboApp(App):
                                   lambda w: {"budget": zahl(w["budget"]) if w["budget"] else 0}), fertig)
 
 
+def main():
+    AboApp(Path(os.environ.get("ABO_DATEI", Path.home() / ".config/abo-manager/abos.json"))).run()
+
+
 if __name__ == "__main__":
-    AboApp(Path(os.environ.get("ABO_DATEI", Path(__file__).with_name("abos.json")))).run()
+    main()

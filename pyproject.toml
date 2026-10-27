@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "abo-manager"
+version = "0.1.0"
+description = "Abos im Terminal überblicken, Preisänderungen und Kombis gegenrechnen."
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Tim Heinemann" }]
+dependencies = ["textual>=1.0"]
+
+[project.scripts]
+abo = "abo:main"
+
+[project.urls]
+Homepage = "https://github.com/t1mdotcom/abo-manager"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["abo.py"]

@@ -40,7 +40,7 @@ def rechnen():
 
 async def ui():
     with tempfile.TemporaryDirectory() as tmp:
-        datei = Path(tmp) / "abos.json"
+        datei = Path(tmp) / "neu" / "abos.json"  # Ordner fehlt noch → speichern legt ihn an
         lesen = lambda: json.loads(datei.read_text())["abos"]
         async with abo.AboApp(datei).run_test(size=(140, 40)) as pilot:
             await pilot.press("a", *"Netflix", "tab", *"Streaming", "tab", *"13,99", "enter")
